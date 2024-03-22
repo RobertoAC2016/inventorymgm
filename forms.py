@@ -11,6 +11,9 @@ from wtforms.fields.html5 import EmailField, DateField
 from bson.objectid import ObjectId
 import datetime
 
+namevalue = 'Nombre'
+namemsg = 'El nombre deberia tener entre 5 y 20 caracteres.'
+btnSubmitLbl = 'Enviar'
 
 def unique_business_validator(form, field):
     '''
@@ -19,16 +22,16 @@ def unique_business_validator(form, field):
     existing_business = Business.objects(business_name=field.data).first()
 
     if existing_business:
-        raise ValidationError('Business name already exists.')
+        raise ValidationError('El nombre de usuario ya existe.')
 
 
 class CustomRegisterForm(RegisterForm):
-    name = StringField(label='Name',
+    name = StringField(label=namevalue,
                        validators=[DataRequired(),
                                    Length(min=5, max=20,
-                                   message='Name should be between 5 to 20 characters.'
+                                   message=namemsg
                                           )])
-    business_name = StringField(label='Business Name',
+    business_name = StringField(label='Nombre de usuario',
                                 validators=[DataRequired(),
                                             unique_business_validator])
 
@@ -41,16 +44,16 @@ class CustomUserManager(UserManager):
 
 class UserAccess(FlaskForm):
     name = StringField(validators=[Length(min=5, max=20,
-                       message='Name should be between 5 to 20 characters.'),
+                       message=namemsg),
                                    DataRequired()],
-                       render_kw={'placeholder': 'Name'})
+                       render_kw={'placeholder': namevalue})
     email = EmailField(validators=[Email(), DataRequired(),
                                    unique_email_validator],
                        render_kw={'placeholder': 'Email'})
     password = PasswordField(validators=[DataRequired(),
                                          password_validator],
-                             render_kw={'placeholder': 'Password'})
-    roles = SelectField(choices=[('', 'Choose Role'),
+                             render_kw={'placeholder': 'Contraseña'})
+    roles = SelectField(choices=[('', 'Elige un rol'),
                                  ('admin', 'admin'),
                                  ('staff', 'staff')],
                         validators=[DataRequired()])
@@ -59,7 +62,7 @@ class UserAccess(FlaskForm):
 class CategoryForm(FlaskForm):
     category_name = StringField(validators=[DataRequired()],
                                 render_kw={'placeholder': 'Category name'})
-    submit = SubmitField(label='Submit')
+    submit = SubmitField(label=btnSubmitLbl)
 
 
 class SupplierForm(FlaskForm):
@@ -71,7 +74,7 @@ class SupplierForm(FlaskForm):
                          message='Please input correct digits for phone')],
                          render_kw={'placeholder': 'Phone'})
     email = EmailField(render_kw={'placeholder': 'Email'})
-    submit = SubmitField(label='Submit')
+    submit = SubmitField(label=btnSubmitLbl)
 
 
 class ProductForm(FlaskForm):
@@ -95,7 +98,7 @@ class ProductForm(FlaskForm):
     current_stock = IntegerField(default=0,
                                  render_kw={'placeholder': 'Current stock'})
     stock_change = IntegerField(render_kw={'placeholder': 'Stock change'})
-    submit = SubmitField(label='Submit')
+    submit = SubmitField(label=btnSubmitLbl)
 
 
 class PendingStockForm(FlaskForm):
@@ -104,7 +107,7 @@ class PendingStockForm(FlaskForm):
     delivery_date = DateField(label='Expected delivery date',
                               validators=[DataRequired()],
                               render_kw={'min': datetime.date.today()})
-    submit = SubmitField(label='Submit')
+    submit = SubmitField(label=btnSubmitLbl)
 
 
 class AddProduct(FlaskForm):

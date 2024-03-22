@@ -15,7 +15,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-uWxY/CJNBR+1zjPWmfnSnVxwRheevXITnMqoEIeG1LJrdI0GlVs/9cVSyPYXdcSF" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles.css') }}">
-    <title>StockMGMT</title>
+    <title>{{ user_manager.sysname }}</title>
 </head>
 {% endblock %}
 
@@ -28,16 +28,19 @@
     <div class="container-fluid">
         <div class="row flex-nowrap">
             <!-- side navigation bar -->
-            <nav class="sidenav col-1 col-lg-2 bg-primary px-sm-2 px-0 pt-5">
+            <nav class="sidenav col-1 col-lg-2 bg-primary px-sm-2 px-0">
                 <div class="d-flex flex-column align-items-md-center align-items-lg-start bg-primary min-vh-100">
-                    <ul class="nav nav-pills flex-column text-decoration-none">
-                        <li class="fs-4 px-3 text-center text-white">
-                            <span class="d-sm-none d-lg-inline">{{ current_user.name }}</span>
+                    <div class="text-center text-white w-100">
+                        {{ user_manager.sysname }}
+                    </div>
+                    <ul class="nav nav-pills flex-column text-decoration-none w-100">
+                        <li class="fs-4 px-3 text-center text-white w-100">
+                            <span class="d-sm-none d-lg-inline w-100">{{ current_user.name }}</span>
                         </li>
                         <li class="nav-item pt-sm-5 pt-lg-0">
                             <a class="nav-link" href="{{ url_for('user.logout') }}">
                                 <i class="bi bi-power"></i>
-                                <span class="d-sm-none d-lg-inline">Sign out</span>
+                                <span class="d-sm-none d-lg-inline">Salir</span>
                             </a>
                         </li>
 
@@ -47,26 +50,26 @@
                         <li class="nav-item mb-2">
                             <a href="{{ url_for('get_categories') }}" class="nav-link{{ ' active' if active_page == 'categories' }}">
                                 <i class="bi bi-collection"></i>
-                                <span class="d-sm-none d-lg-inline">Categories</span>
+                                <span class="d-sm-none d-lg-inline">Categorias</span>
                             </a>
                         </li>
                         {% endif %}
                         <li class="nav-item mb-2">
                             <a href="{{ url_for('get_suppliers') }}" class="nav-link{{ ' active' if active_page == 'suppliers' }}">
                                 <i class="bi bi-person-lines-fill"></i>
-                                <span class="d-sm-none d-lg-inline">Suppliers</span>
+                                <span class="d-sm-none d-lg-inline">Proveedores</span>
                             </a>
                         </li>
                         <li class="nav-item mb-2">
                             <a href="{{ url_for('get_products') }}" class="nav-link{{ ' active' if active_page == 'products' }}">
                                 <i class="bi bi-grid"></i>
-                                <span class="d-sm-none d-lg-inline">Products</span>
+                                <span class="d-sm-none d-lg-inline">Productos</span>
                             </a>
                         </li>
                         <li class="nav-item mb-2">
                             <a href="{{ url_for('dashboard') }}" class="nav-link{{ ' active' if active_page == 'dashboard' }}">
                                 <i class="bi bi-speedometer2"></i>
-                                <span class="d-sm-none d-lg-inline">Stock Flow</span>
+                                <span class="d-sm-none d-lg-inline">Dashboard</span>
                             </a>
                         </li>
                     </ul>
@@ -91,7 +94,7 @@
                                 {{ current_user.business_id.business_name }}
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="toolbarDropdown">
-                                <li><a class="dropdown-item" href="{{ url_for('account') }}">Account Page</a></li>
+                                <li><a class="dropdown-item" href="{{ url_for('account') }}">Perfil</a></li>
                             </ul>
                         </li>
                     </ul>

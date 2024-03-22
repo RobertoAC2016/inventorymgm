@@ -1,0 +1,1 @@
+SYS_NAME = 'Inventory Stock'

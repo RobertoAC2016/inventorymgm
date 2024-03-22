@@ -21,16 +21,15 @@
     <div class="row mb-3">
         <a href="{{ url_for('index') }}" class="text-decoration-none">
             <h1 class="brand-text">
-                <span>Stock</span>
-                <span>MGMT</span>
+                <span>{{ user_manager.sysname }}</span>
             </h1>
         </a>
     </div>
     <div class="row wrapper-glassmorphism text-white">
         <div class="col">
             <div class="form-navigation">
-                <a href="{{ url_for('user.register') }}" class="form-navigation-link">Register</a>
-                <a href="{{ url_for('user.login') }}" class="form-navigation-link active">Login</a>
+                <a href="{{ url_for('user.register') }}" class="form-navigation-link">Registro</a>
+                <a href="{{ url_for('user.login') }}" class="form-navigation-link active">Ingresar</a>
             </div>
 
             <form action="{{ url_for('user.login') }}" method="POST">

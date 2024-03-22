@@ -1,3 +1,4 @@
+from const import SYS_NAME
 import os
 if os.path.exists('env.py'):
     import env
@@ -24,7 +25,7 @@ class ConfigClass(object):
     USER_AUTO_LOGIN_AFTER_REGISTER = True
     USER_AUTO_LOGIN_AT_LOGIN = True
     CSRF_ENABLED = True
-    USER_APP_NAME = 'Inventory Stock'
+    USER_APP_NAME = SYS_NAME
     USER_EMAIL_SENDER_NAME = USER_APP_NAME
     USER_EMAIL_SENDER_EMAIL = os.environ.get('USER_EMAIL_SENDER_EMAIL')
 
