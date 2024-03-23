@@ -8,7 +8,7 @@
         <div class="col-12 col-md-6">
             <div class="card px-3">
                 <div class="card-body">
-                    <h5 class="card-title fw-bold">Manage Suppliers</h5>
+                    <h5 class="card-title fw-bold">Gestionar proveedores</h5>
 
                     <div class="accordion mt-3" id="accordionSuppliers">
 
@@ -43,10 +43,10 @@
                                 <!-- The body of the accordion item  -->
                                 <div class="accordion-body">
                                     <ul class="list-unstyled">
-                                        <li>{{ supplier.contact_person }}</li>
-                                        <li>{{ supplier.phone }}</li>
-                                        <li>{{ supplier.email }}</li>
-                                        <li>{{ supplier.address }}</li>
+                                        <li>Nombre: {{ supplier.contact_person }}</li>
+                                        <li>Teléfono: {{ supplier.phone }}</li>
+                                        <li>Email: {{ supplier.email }}</li>
+                                        <li>Dirección: {{ supplier.address }}</li>
                                     </ul>
 
                                     <!-- Action buttons for each supplier  -->
@@ -56,12 +56,12 @@
                                             data-id="{{ supplier.id }}"
                                             class="text-decoration-none btn btn-sm btn-outline-primary">
                                             <i class="bi bi-pencil-square" aria-hidden="true"></i>
-                                            <span class="visually-hidden">Edit supplier</span>
+                                            <span class="visually-hidden">Editar proveedor</span>
                                         </a>
                                         <a href="{{ url_for('delete_supplier', supplier_id=supplier.id) }}"
                                             class="text-decoration-none btn btn-sm btn-outline-danger">
                                             <i class="bi bi-trash" aria-hidden="true"></i>
-                                            <span class="visually-hidden">Delete supplier</span>
+                                            <span class="visually-hidden">Borrar proveedor</span>
                                         </a>
                                     </div>
                                     {% endif %}
@@ -74,7 +74,7 @@
 
                     {% if 'admin' in current_user.roles %}
                     <a class="btn btn-primary mt-4" data-action="showForm" data-target="createSupplierForm">
-                        Create new supplier
+                        Crear proveedor
                     </a>
                     {% endif %}
                 </div>
@@ -99,7 +99,7 @@
                 method="POST">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title fw-bold">Create new supplier</h5>
+                        <h5 class="card-title fw-bold">Agregar proveedor</h5>
                         {{ form.csrf_token }}
 
                         {{ render_field(form.supplier_name) }}
@@ -108,7 +108,7 @@
                         {{ render_field(form.email) }}
                         {{ render_field(form.address) }}
                         {{ render_submit_btn(form.submit) }}
-                        <a href="#" class="btn btn-outline-secondary" data-action="hideForm">Cancel</a>
+                        <a href="#" class="btn btn-outline-secondary" data-action="hideForm">Cancelar</a>
                     </div>
                 </div>
             </form>`;
@@ -117,7 +117,7 @@
             <form id="edit_supplier" class="mt-4 mt-md-0" action="" method="POST">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title fw-bold">Edit supplier</h5>
+                        <h5 class="card-title fw-bold">Editar proveedor</h5>
                         {{ form.csrf_token }}
 
                         {{ render_field(form.supplier_name) }}
@@ -126,7 +126,7 @@
                         {{ render_field(form.phone) }}
                         {{ render_field(form.email) }}
                         {{ render_submit_btn(form.submit) }}
-                        <a href="#" class="btn btn-outline-secondary" data-action="hideForm">Cancel</a>
+                        <a href="#" class="btn btn-outline-secondary" data-action="hideForm">Cancelar</a>
                     </div>
                 </div>
             </form>`;

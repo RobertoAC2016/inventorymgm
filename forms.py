@@ -63,18 +63,18 @@ class UserAccess(FlaskForm):
 
 class CategoryForm(FlaskForm):
     category_name = StringField(validators=[DataRequired()],
-                                render_kw={'placeholder': 'Category name'})
+                                render_kw={'placeholder': 'Nombre de categoría'})
     submit = SubmitField(label=btnSubmitLbl)
 
 
 class SupplierForm(FlaskForm):
     supplier_name = StringField(validators=[DataRequired()],
-                                render_kw={'placeholder': 'Supplier\'s name'})
-    contact_person = StringField(render_kw={'placeholder': 'Contact person'})
-    address = StringField(render_kw={'placeholder': 'Address'})
+                                render_kw={'placeholder': 'Nombre del proveedor'})
+    contact_person = StringField(render_kw={'placeholder': 'Persona de contacto'})
+    address = StringField(render_kw={'placeholder': 'Dirección'})
     phone = IntegerField(validators=[DataRequired(
-                         message='Please input correct digits for phone')],
-                         render_kw={'placeholder': 'Phone'})
+                         message='Por favor ingrese solo numeros para el teléfono')],
+                         render_kw={'placeholder': 'Teléfono'})
     email = EmailField(render_kw={'placeholder': 'Email'})
     submit = SubmitField(label=btnSubmitLbl)
 
@@ -82,7 +82,7 @@ class SupplierForm(FlaskForm):
 class ProductForm(FlaskForm):
     name = StringField(validators=[DataRequired()],
                        render_kw={'placeholder': 'Nombre de producto'})
-    category_id = SelectField(label='Elegir categoria',
+    category_id = SelectField(label='Elegir categoría',
                               coerce=ObjectId,
                               validators=[DataRequired()])
     brand = StringField(render_kw={'placeholder': 'Nombre de la marca'})
