@@ -4,13 +4,13 @@ function generateHeading() {
     return `
         <div class="row align-items-center mb-2 g-0">
             <div class="col-6">
-                <span class="text-muted ps-2">Product Name</span>
+                <span class="text-muted ps-2">Nombre de producto</span>
             </div>
             <div class="col-2">
-                <span class="text-muted text-center">Current Stock</span>
+                <span class="text-muted text-center">Existencias actuales</span>
             </div>
             <div class="col-2">
-                <span class="text-muted text-center">Today's change</span>
+                <span class="text-muted text-center">Cambios de hoy</span>
             </div>
             <div class="col-2"></div>
         </div>`;
@@ -38,7 +38,7 @@ function displayProductList(productLists) {
                 <div class="col-2">
                     <a class="btn text-primary p-0" data-action="showForm" data-target="edit_product_stock"
                         data-id="${product._id.$oid}">
-                        Update Stock
+                        Actualizar existencias
                     </a>
                 </div>
             </div>`;
@@ -55,7 +55,7 @@ function displayProductList(productLists) {
     }
 
     if (productLists.length === 0) {
-        $('div.product-list').html('No results found');
+        $('div.product-list').html('No hay resultados');
     }
 }
 
@@ -64,7 +64,7 @@ function displayPendingStocks(pendingStocks) {
     
     pendingStocks.forEach(pending => {
         const delivery_date = new Date(pending.delivery_date.$date).toDateString();
-        const statusHtml = (pending.is_approved) ? '<span class="badge bg-success">Done</span>' : '<span class="badge bg-warning">Pending</span>';
+        const statusHtml = (pending.is_approved) ? '<span class="badge bg-success">Terminado</span>' : '<span class="badge bg-warning">Pendiente</span>';
         const supplierName = $('select#supplier_id option:selected').text();
         
         let row = `
@@ -88,7 +88,7 @@ function displayPendingStocks(pendingStocks) {
     $('.pending-stock-list').html(pendingStockListHtml);
 
     if (pendingStocks.length === 0) {
-        $('.pending-stock-list').html('No results found');
+        $('.pending-stock-list').html('No hay resultados');
     }
 }
 

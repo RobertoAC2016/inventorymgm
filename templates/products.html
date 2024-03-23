@@ -8,10 +8,10 @@
         <div class="col-12 col-md-7">
             <div class="search-product">
                 <form class="d-flex" id="product-query" method="POST">
-                    <input class="form-control me-2 search" type="text" id="query" placeholder="Search product"
+                    <input class="form-control me-2 search" type="text" id="query" placeholder="Buscar producto"
                         aria-label="Search product" autocomplete="off">
-                    <button class="btn btn-outline-primary me-1" type="submit">Search</button>
-                    <a href="{{ url_for('get_products') }}" class="btn btn-outline-secondary">Cancel</a>
+                    <button class="btn btn-outline-primary me-1" type="submit">Buscar</button>
+                    <a href="{{ url_for('get_products') }}" class="btn btn-outline-secondary">Cancelar</a>
                 </form>
                 <ul class="suggestions list-group">
 
@@ -19,7 +19,7 @@
             </div>
             {% if 'admin' in current_user.roles %}
             <a class="btn btn-primary mt-4" data-action="showForm" data-target="createProductForm">
-                Create new product
+                Agregar producto
             </a>
             {% endif %}
         </div>
@@ -57,13 +57,13 @@
                             <div class="accordion-body">
                                 <div class="row align-items-center mb-2 border-bottom">
                                     <div class="col-6">
-                                        <span class="text-muted">Product Name</span>
+                                        <span class="text-muted">Nombre de producto</span>
                                     </div>
                                     <div class="col-2">
-                                        <span class="text-muted text-center">Current Stock</span>
+                                        <span class="text-muted text-center">Existencias actuales</span>
                                     </div>
                                     <div class="col-2">
-                                        <span class="text-muted text-center">Today's change</span>
+                                        <span class="text-muted text-center">Cambio de hoy</span>
                                     </div>
                                     <div class="col-2">
                                     </div>
@@ -88,7 +88,7 @@
                                     <div class="col-2">
                                         <a class="btn text-primary p-0" data-action="showForm"
                                             data-target="edit_product_stock" data-id="{{ product.id }}">
-                                            Update Stock
+                                            Actualizar existencias
                                         </a>
                                     </div>
                                 </div>
@@ -118,7 +118,7 @@
             <form id="createProductForm" class="mt-4 mt-md-0" action="{{ url_for('create_product') }}" method="POST">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title fw-bold">Create new product</h5>
+                        <h5 class="card-title fw-bold">Agregar producto</h5>
                         {{ form.csrf_token }}
                         {{ render_field(form.name) }}
                         {{ render_field(form.brand) }}
@@ -128,7 +128,7 @@
                         {{ render_field(form.min_stock_allowed) }}
                         {{ render_field(form.current_stock) }}
                         {{ render_submit_btn(form.submit) }}
-                        <a href="#" class="btn btn-outline-secondary" data-action="hideForm">Cancel</a>
+                        <a href="#" class="btn btn-outline-secondary" data-action="hideForm">Cancelar</a>
                     </div>
                 </div>
             </form>`;
@@ -137,18 +137,18 @@
             <form id="edit_product_stock" class="mt-4 mt-md-0" action="" method="POST">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title fw-bold">Update Stock</h5>
+                        <h5 class="card-title fw-bold">Actualizar existencias</h5>
                         {{ form.csrf_token }}
                         <div class="form-floating">
                             {{ form.name(class='form-control border-0 bg-white', readonly='') }}
-                            <label>Product Name</label>
+                            <label>Nombre de producto</label>
                         </div>
                         <div class="form-floating mb-3">
                             <input type="number" class='form-control' id="stock_update" name="stock_update" max="200">
-                            <label for="stock_update">Stock Change</label>
+                            <label for="stock_update">Cambios en existencias</label>
                         </div>
                         {{ render_submit_btn(form.submit) }}
-                        <a href="#" class="btn btn-outline-secondary" data-action="hideForm">Cancel</a>
+                        <a href="#" class="btn btn-outline-secondary" data-action="hideForm">Cancelar</a>
                     </div>
                 </div>
             </form>`;

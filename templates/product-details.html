@@ -6,38 +6,38 @@
         <div class="col-12 col-md-6">
             <div class="card px-3">
                 <div class="card-body">
-                    <h5 class="card-title fw-bold">Product Details</h5>
+                    <h5 class="card-title fw-bold">Ver detalles del producto</h5>
 
                     <div class="row mt-3 align-items-center py-2 g-0">
                         <div class="form-floating">
                             <p class="card-text form-control border-0 mb-1">{{ product.name }}</p>
-                            <label>Product name</label>
+                            <label>Nombre de producto</label>
                         </div>
                         <div class="form-floating">
                             <p class="card-text form-control border-0 mb-1">{{ product.brand }}</p>
-                            <label>Product brand</label>
+                            <label>Marca del producto</label>
                         </div>
                         <div class="form-floating">
                             <p class="card-text form-control border-0 mb-1">{{ product.category_id.category_name }}</p>
-                            <label>Product category</label>
+                            <label>Categoria del producto</label>
                         </div>
                         <div class="form-floating">
                             <p class="card-text form-control border-0 mb-1">{{ product.supplier_id.supplier_name }}</p>
-                            <label>Supplier</label>
+                            <label>Proveedor</label>
                         </div>
                         <div class="form-floating">
                             <p class="card-text form-control border-0 mb-1">{{ product.unit_of_measurement }}</p>
-                            <label>Unit of measurement</label>
+                            <label>Unidad de medida</label>
                         </div>
                         <div class="form-floating">
                             <p class="card-text form-control border-0 mb-1">{{ product.min_stock_allowed }}</p>
-                            <label>Minimum stock</label>
+                            <label>Minimo de existencias</label>
                         </div>
 
                         <div class="col-6">
                             <div class="form-floating">
                                 <p class="card-text form-control border-0 mb-1">{{ product.current_stock }}</p>
-                                <label>Current stock</label>
+                                <label>Existencias actuales</label>
                             </div>
                         </div>
                         <div class="col-6">
@@ -49,21 +49,21 @@
                                         0
                                     {% endif %}
                                 </p>
-                                <label class="px-0">Today's change</label>
+                                <label class="px-0">Cambios de hoy</label>
                             </div>
                         </div>
                     </div>
 
                     <div class="my-auto">
                         <a href="#" class="btn btn-md btn-primary me-2" data-action="showForm" data-target="updateStockForm">
-                            Update Stock
+                            Actualizar existencias
                         </a>
                         {% if 'admin' in current_user.roles %}
                         <a href="#" class="btn btn-md btn-outline-primary text-decoration-none me-2" data-action="showForm" data-target="editProductForm">
-                            Edit
+                            Editar
                         </a>
                         <a href="{{ url_for('delete_product', product_id=product.id) }}" class="btn btn-md btn-outline-danger">
-                            Delete
+                            Borrar
                         </a>
                         {% endif %}
                     </div>
@@ -87,7 +87,7 @@
             <form id="editProductForm" class="mt-4 mt-md-0" action="{{ url_for('edit_product', product_id=product.id) }}" method="POST">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title fw-bold">Edit product details</h5>
+                        <h5 class="card-title fw-bold">Editar producto</h5>
                         {{ form.csrf_token }}
                         {{ render_field_with_value(form.name, product.name) }}
                         {{ render_field_with_value(form.brand, product.brand) }}
@@ -96,7 +96,7 @@
                         {{ render_field_with_value(form.unit_of_measurement, product.unit_of_measurement) }}
                         {{ render_field_with_value(form.min_stock_allowed, product.min_stock_allowed) }}
                         {{ render_submit_btn(form.submit) }}
-                        <a href="#" class="btn btn-outline-secondary" data-action="hideForm">Cancel</a>
+                        <a href="#" class="btn btn-outline-secondary" data-action="hideForm">Cancelar</a>
                     </div>
                 </div>
             </form>`;
@@ -105,18 +105,18 @@
             <form id="updateStockForm" class="mt-4 mt-md-0" action="{{ url_for('update_stock', product_id=product.id) }}" method="POST">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title fw-bold">Update Stock</h5>
+                        <h5 class="card-title fw-bold">Actualizar existencias</h5>
                         {{ form.csrf_token }}
                         <div class="form-floating">
                             <p class="card-text form-control border-0 mb-1">{{ product.name }}</p>
-                            <label>Product Name</label>
+                            <label>Nombre de producto</label>
                         </div>
                         <div class="form-floating mb-3">
                             <input type="number" class='form-control' id="stock_update" name="stock_update" max="200">
-                            <label for="stock_update">Stock Change</label>
+                            <label for="stock_update">Medificar existencias</label>
                         </div>
                         {{ render_submit_btn(form.submit) }}
-                        <a href="#" class="btn btn-outline-secondary" data-action="hideForm">Cancel</a>
+                        <a href="#" class="btn btn-outline-secondary" data-action="hideForm">Cancelar</a>
                     </div>
                 </div>
             </form>`;

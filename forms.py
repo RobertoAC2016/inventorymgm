@@ -13,7 +13,9 @@ import datetime
 
 namevalue = 'Nombre'
 namemsg = 'El nombre deberia tener entre 5 y 20 caracteres.'
-btnSubmitLbl = 'Enviar'
+btnSubmitLbl = 'Guardar'
+provLbl = 'Elegir proveedor'
+inValidLbl = 'Por favor ingrese un numero valido'
 
 def unique_business_validator(form, field):
     '''
@@ -79,48 +81,47 @@ class SupplierForm(FlaskForm):
 
 class ProductForm(FlaskForm):
     name = StringField(validators=[DataRequired()],
-                       render_kw={'placeholder': 'Product name'})
-    category_id = SelectField(label='Choose category',
+                       render_kw={'placeholder': 'Nombre de producto'})
+    category_id = SelectField(label='Elegir categoria',
                               coerce=ObjectId,
                               validators=[DataRequired()])
-    brand = StringField(render_kw={'placeholder': 'Brand name'})
-    supplier_id = SelectField(label='Choose supplier',
+    brand = StringField(render_kw={'placeholder': 'Nombre de la marca'})
+    supplier_id = SelectField(label=provLbl,
                               coerce=ObjectId,
                               validators=[DataRequired()])
     unit_of_measurement = StringField(
                              validators=[DataRequired()],
-                             render_kw={'placeholder': 'Unit of measurement'})
+                             render_kw={'placeholder': 'Unidad de medida'})
     min_stock_allowed = IntegerField(
                         validators=[DataRequired(),
-                                    NumberRange(min=0, max=100,
-                                    message='Min stock should be between 0 to 100')],
-                        render_kw={'placeholder': 'Minimum stock allowed'})
+                                    NumberRange(min=0, max=1000,
+                                    message='Las existencias minimas deben ser entre 0 y 1000')],
+                        render_kw={'placeholder': 'Existencias minimas permitidas'})
     current_stock = IntegerField(default=0,
-                                 render_kw={'placeholder': 'Current stock'})
-    stock_change = IntegerField(render_kw={'placeholder': 'Stock change'})
+                                 render_kw={'placeholder': 'Existencias actuales'})
+    stock_change = IntegerField(render_kw={'placeholder': 'Modificar existencias'})
     submit = SubmitField(label=btnSubmitLbl)
 
 
 class PendingStockForm(FlaskForm):
-    supplier_id = SelectField(label='Choose supplier',
+    supplier_id = SelectField(label=provLbl,
                               validators=[DataRequired()])
-    delivery_date = DateField(label='Expected delivery date',
+    delivery_date = DateField(label='Fecha esperada de entrega',
                               validators=[DataRequired()],
                               render_kw={'min': datetime.date.today()})
     submit = SubmitField(label=btnSubmitLbl)
 
-
 class AddProduct(FlaskForm):
     id = HiddenField()
     name = StringField(validators=[DataRequired()],
-                       render_kw={'placeholder': 'Search product',
+                       render_kw={'placeholder': 'Buscar producto',
                                   'class': 'form-control search',
                                   'autocomplete': 'off'})
     expected_stock = IntegerField(validators=[DataRequired(),
                                   NumberRange(min=1, max=100,
-                                  message='Please input valid number')],
-                                  render_kw={'placeholder': 'Expected stock'})
+                                  message=inValidLbl)],
+                                  render_kw={'placeholder': 'Existencias esperadas'})
     received_stock = IntegerField(validators=[DataRequired(),
                                   NumberRange(min=0, max=100,
-                                  message='Please input valid number')])
+                                  message=inValidLbl)])
     unit_of_measurement = StringField()

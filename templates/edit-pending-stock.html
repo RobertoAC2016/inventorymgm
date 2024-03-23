@@ -9,24 +9,24 @@
             <div class="card">
                 <div class="card-body">
                     <form class="mb-2" action="{{ url_for('edit_pending_stock', id=pending_stock.id) }}" method="POST">
-                        <h5 class="card-title fw-bold">Edit pending stock</h5>
+                        <h5 class="card-title fw-bold">Editar existencias pendientes</h5>
                         {{ form.csrf_token }}
 
                         <div class="form-floating">
                             <input id="supplier_id" type="hidden" value="{{ pending_stock.supplier_id.id }}">
                             <p class="card-text form-control border-0 mb-1">
                                 {{ pending_stock.supplier_id.supplier_name }}</p>
-                            <label>Supplier</label>
+                            <label>Proveedor</label>
                         </div>
 
                         {{ render_field_with_value(form.delivery_date, pending_stock.delivery_date)}}
 
                         <div class="row align-items-center mb-2 g-0">
                             <div class="col-6 ps-2">
-                                <span class="text-muted">Product Name</span>
+                                <span class="text-muted">Nombre de producto</span>
                             </div>
                             <div class="col-4 text-center">
-                                <span class="text-muted">Expected Stock</span>
+                                <span class="text-muted">Existencias esperadas</span>
                             </div>
                             <div class="col-2"></div>
                         </div>
@@ -43,7 +43,7 @@
                                 <a href="{{ url_for('remove_product_from_pending_stock', id=item.id) }}"
                                     class="text-decoration-none btn btn-sm btn-outline-danger">
                                     <i class="bi bi-trash" aria-hidden="true"></i>
-                                    <span class="visually-hidden">Remove product from pending stock</span>
+                                    <span class="visually-hidden">Borrar producto de las existencias pendientes</span>
                                 </a>
                             </div>
                         </div>
@@ -51,7 +51,7 @@
 
                         <div class="mt-4">
                             {{ render_submit_btn(form.submit) }}
-                            <a href="{{ url_for('pending_stock_details', id=pending_stock.id) }}" class="btn btn-outline-secondary">Cancel</a>
+                            <a href="{{ url_for('pending_stock_details', id=pending_stock.id) }}" class="btn btn-outline-secondary">Cancelar</a>
                         </div>
                     </form>
                 </div>
@@ -60,13 +60,13 @@
             <div class="card mt-4">
                 <div class="card-body">
                     <form class="search-form" action="{{url_for('add_product_to_pending_stock')}}" method="POST">
-                        <h5 class="card-title fw-bold">Add product</h5>
+                        <h5 class="card-title fw-bold">Agregar producto</h5>
                         {{ product_form.csrf_token }}
                         {{ product_form.id(value='productid') }}
                         <div class="row g-0 align-items-center">
                             <div class="col-6">
                                 <div class="mb-3">
-                                    <label for="name" class="visually-hidden">Name</label>
+                                    <label for="name" class="visually-hidden">Nombre</label>
                                     {{ product_form.name }}
                                     <ul class="list-unstyled">
 
@@ -79,7 +79,7 @@
                             <div class="col-1 text-center">
                                 <button type="submit" class="add-item mb-3">
                                     <i class="bi bi-plus-circle" aria-hidden="true"></i>
-                                    <span class="visually-hidden">Add product to pending stock order</span>
+                                    <span class="visually-hidden">Agregar producto a la orden de las existencias pendientes</span>
                                 </button>
                             </div>
                         </div>
@@ -92,7 +92,7 @@
                             </div>
                             <div class="col-5 form-floating unit-measurement d-none">
                                 {{ product_form.unit_of_measurement(class='card-text form-control border-0 px-0') }}
-                                <label for="{{ product_form.unit_of_measurement.name }}">Unit</label>
+                                <label for="{{ product_form.unit_of_measurement.name }}">Unidad</label>
                             </div>
                         </div>
                     </form>
