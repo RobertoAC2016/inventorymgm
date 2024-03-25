@@ -1,5 +1,4 @@
 import os
-import json
 from flask import (
     Flask, flash, render_template,
     redirect, request, session, url_for, jsonify)
@@ -57,16 +56,22 @@ def create_business(sender, user, **extra):
     Create new business in database and admin role
     upon registration to account holder/owner
     '''
-    existing_business = Business.objects(
-                                 business_name=user.business_name).first()
+    obj = Business.objects()
+    role = 'admin'
+    holder = True
+    business_id = None
+    if len(obj) > 0:
+        role = 'staff'
+        holder = False
+        business_id = Business.objects(business_name='admin').first().id
+    existing_business = Business.objects(business_name=user.business_name).first()
     if not existing_business:
-        business = Business(business_name=user.business_name,
-                            business_owner=user.id)
+        business = Business(business_name=user.business_name, business_owner=user.id)
         business.save()
-        user.business_id = business.id
-        user.account_holder = True
+        user.business_id = business.id if business_id == None else business_id
+        user.account_holder = holder
         user.roles.pop()
-        user.roles.append('admin')
+        user.roles.append(role)
         user.save()
 
 
@@ -90,6 +95,26 @@ def account():
                            access_form=access_form)
 
 
+@app.route('/edit_pwd_account/<account_id>', methods=['POST'])
+@login_required
+@roles_required('admin')
+def edit_pwd_account(account_id):
+    '''
+    Edit pwd account
+    '''
+    form = UserAccess()
+    password = form.password.data
+    account = User.objects.get(id=account_id)
+    hashed_password = user_manager.hash_password(password)
+    if request.method == 'POST':
+        updated_account = {
+            'password': hashed_password,
+        }
+        account.update(**updated_account)
+        flash('La contraseña se actualizo exitosamente', 'success')
+    return redirect(url_for('account'))
+
+
 @app.route('/account/edit/<account_id>', methods=['POST'])
 @login_required
 @roles_required('admin')
@@ -106,7 +131,7 @@ def edit_account(account_id):
         }
         account.update(**updated_account)
         business.update(business_name=request.form.get('business_name'))
-        flash('Account successfully updated', 'success')
+        flash('La cuenta se actualizo exitosamente', 'success')
         return redirect(url_for('account'))
 
 
@@ -128,7 +153,7 @@ def create_new_access():
                           roles=[form.roles.data],
                           business_id=current_user.business_id)
         new_access.save()
-        flash('New user access successfully created', 'success')
+        flash('La cuenta se creo exitosamente', 'success')
         return redirect(url_for('account'))
 
     for field_errors in form.errors.values():
@@ -151,7 +176,7 @@ def edit_access(access_id):
     access.name = request.form.get('name')
     access.save()
 
-    flash('Access successfully updated', 'success')
+    flash('Los accesos se actualizaron exitosamente', 'success')
     return redirect(url_for('account'))
 
 
@@ -164,7 +189,7 @@ def delete_access(access_id):
     '''
     access = User.objects.get(id=access_id)
     access.delete()
-    flash('Access successfully deleted', 'success')
+    flash('El acceso fue borrado exitosamente', 'success')
     return redirect(url_for('account'))
 
 
@@ -210,7 +235,7 @@ def create_category():
             category_name=request.form.get('category_name'),
             business_id=current_user.business_id)
         new_category.save()
-        flash('Category successfully created', 'success')
+        flash('La categoría se creo exitosamente', 'success')
         return redirect(url_for('get_categories'))
 
     for field_errors in form.errors.values():
@@ -233,7 +258,7 @@ def edit_category(category_id):
             'category_name': request.form.get('category_name')
         }
         category.update(**edit)
-        flash('Category successfully updated', 'success')
+        flash('La categoría se actualizo exitosamente', 'success')
         return redirect(url_for('get_categories'))
 
     for field_errors in form.errors.values():
@@ -251,7 +276,7 @@ def delete_category(category_id):
     '''
     category = Category.objects.get(id=category_id)
     category.delete()
-    flash('Category successfully deleted', 'success')
+    flash('La categoría fue borrada exitosamente', 'success')
     return redirect(url_for('get_categories'))
 
 
@@ -300,7 +325,7 @@ def create_supplier():
             email=request.form.get('email'),
             business_id=current_user.business_id)
         new_supplier.save()
-        flash('Supplier successfully created', 'success')
+        flash('El proveedor se creo exitosamente', 'success')
         return redirect(url_for('get_suppliers'))
 
     for field_errors in form.errors.values():
@@ -327,7 +352,7 @@ def edit_supplier(supplier_id):
             'email': request.form.get('email')
         }
         supplier.update(**edit)
-        flash('Supplier successfully updated', 'success')
+        flash('El proveedor se actualizo exitosamente', 'success')
         return redirect(url_for('get_suppliers'))
 
     for field_errors in form.errors.values():
@@ -345,7 +370,7 @@ def delete_supplier(supplier_id):
     '''
     supplier = Supplier.objects.get(id=supplier_id)
     supplier.delete()
-    flash('Supplier successfully deleted', 'success')
+    flash('El proveedor fue borrado exitosamente', 'success')
     return redirect(url_for('get_suppliers'))
 
 
@@ -442,7 +467,7 @@ def create_product():
             business_id=current_user.business_id)
         new_product.save()
 
-        flash('New product successfully created', 'success')
+        flash('El producto fue creado exitosamente', 'success')
         return redirect(url_for('get_products'))
 
     for field_errors in form.errors.values():
@@ -485,7 +510,7 @@ def edit_product(product_id):
             'min_stock_allowed': request.form.get('min_stock_allowed')
         }
         product.update(**edit)
-        flash('Product successfully updated', 'success')
+        flash('El producto fue actualizado exitosamente', 'success')
         return redirect(url_for('product_details', product_id=product_id))
 
     for field_errors in form.errors.values():
@@ -503,7 +528,7 @@ def delete_product(product_id):
     '''
     product = Product.objects.get(id=product_id)
     product.delete()
-    flash('Product is deleted', 'success')
+    flash('El producto fue borrado exitosamente', 'success')
     return redirect(url_for('get_products'))
 
 
@@ -519,10 +544,10 @@ def update_stock(product_id):
     if product.validate_stock_change(stock_update):
         product.update_stock(stock_update)
         product.save()
-        flash('Stock successfully updated', 'success')
+        flash('Las existencias se actualizaron exitosamente', 'success')
         return redirect(request.referrer)
 
-    flash('Stock change cannot be greater than current stock', 'error')
+    flash('Las existencias no pueden ser mayores a las existencias actuales', 'error')
     return redirect(request.referrer)
 
 
@@ -633,7 +658,7 @@ def create_pending_stock():
 
     if form.validate_on_submit():
         if 'pending' not in session:
-            flash('Please add products to your pending stock form', 'error')
+            flash('Por favor agrega productos al formulario de solicitud de existencias', 'error')
             return redirect(request.referrer)
 
         product_list = session['pending']
@@ -647,14 +672,13 @@ def create_pending_stock():
         pending_stock.save()
         session.pop('pending')
 
-        flash('Pending stock successfully created', 'success')
+        flash('La solicitud de existencias se creo exitosamente', 'success')
         return redirect(url_for('pending_stock_details', id=pending_stock.id))
 
     for field_errors in form.errors.values():
         for error in field_errors:
             flash(error, 'error')
-    return render_template('create-pending-stock.html', form=form,
-                           product_form=product_form)
+    return render_template('create-pending-stock.html', form=form, product_form=product_form)
 
 
 @app.route('/add-pending-product', methods=['POST'])
@@ -719,7 +743,7 @@ def delete_pending_stock(id):
     '''
     pending = PendingStock.objects.get(id=id)
     pending.delete()
-    flash('Pending stock successfully deleted', 'success')
+    flash('La solicitud de existencias fue borrada exitosamente', 'success')
     return redirect(url_for('dashboard'))
 
 
@@ -737,7 +761,7 @@ def edit_pending_stock(id):
 
     if request.method == 'POST':
         if len(session['pending']) == 0:
-            flash('Please add products to your pending stock form', 'error')
+            flash('Por favor agrega productos al formulario de solicitud de existencias', 'error')
             return redirect(request.referrer)
 
         product_list = session['pending']
@@ -748,7 +772,7 @@ def edit_pending_stock(id):
         pending_stock.update(**edit)
         session.pop('pending')
 
-        flash('Pending stock form updated successfully', 'success')
+        flash('La solicitud de existencias fue actualizada exitosamente', 'success')
         return redirect(url_for('pending_stock_details', id=id))
 
     return render_template('edit-pending-stock.html',
@@ -800,7 +824,7 @@ def approve_pending_stock(id):
         product = Product.objects.get(id=pending_product['id'])
 
         if product.validate_stock_change(int(item['received_stock'])) is False:
-            flash('Stock change is not valid', 'error')
+            flash('El cambio de existencias no es valido', 'error')
             return redirect(url_for('pending_stock_details', id=id))
 
         product.update_stock(int(item['received_stock']))
@@ -809,7 +833,7 @@ def approve_pending_stock(id):
     pending_stock.is_approved = True
     pending_stock.save()
     session.pop('stock')
-    flash('Pending stock approved successfully', 'success')
+    flash('La solicitud de existencias fue aprobada exitosamente', 'success')
     return redirect(request.referrer)
 
 

@@ -4,7 +4,7 @@
 {% block content %}
 
 <div class="row text-center">
-    <p class="fs-3">Hello, {{ account.name }}</p>
+    <p class="fs-3">Hola, {{ account.name }}</p>
 </div>
 
 <section class="mt-2">
@@ -12,32 +12,39 @@
         <div class="col-12 col-md-6">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title fw-bold">Account Information</h5>
+                    <h5 class="card-title fw-bold">Información de la cuenta</h5>
                     <div class="form-floating">
                         <p class="card-text form-control border-0 mb-1">{{ account.name }}</p>
-                        <label>Name</label>
+                        <label>Nombre</label>
                     </div>
                     <div class="form-floating">
                         <p class="card-text form-control border-0 mb-1">{{ account.email }}</p>
-                        <label>Email Address</label>
+                        <label>Dirección de Email</label>
                     </div>
                     <div class="form-floating">
                         <p class="card-text form-control border-0 mb-1">{{ account.business_id.business_name }}</p>
-                        <label>Company's Name</label>
+                        <label>Nombre de la empresa</label>
                     </div>
-                    <a class="btn btn-primary" data-action="showForm" data-target="accountForm">Edit Account</a>
+                    <a class="btn btn-primary" data-action="showForm" data-target="accountForm">
+                        <i class="bi bi-pencil-square"></i>
+                        Editar cuenta
+                    </a>
+                    <a class="btn btn-success" data-action="showForm" data-target="edit_pwd_account" data-id="{{ account.id }}">
+                        <i class="bi bi-key"></i>
+                        Cambiar contraseña
+                    </a>
                 </div>
             </div>
 
             <div class="card mt-4">
                 <div class="card-body">
-                    <h5 class="card-title fw-bold">User Access</h5>
+                    <h5 class="card-title fw-bold">Cuentas de usuario</h5>
                     <div class="row">
                         <div class="col-6">
-                            <span class="text-muted">Name</span>
+                            <span class="text-muted">Nombre</span>
                         </div>
                         <div class="col-3">
-                            <span class="text-muted">Role</span>
+                            <span class="text-muted">Rol</span>
                         </div>
                         <div class="col-3">
                         </div>
@@ -51,19 +58,21 @@
                         </div>
                         <div class="col-3">
                             {% for role in access.roles %}
-                            {{ role|capitalize }}
+                            {{ role if role == 'admin' else 'empleado'|capitalize }}
                             {% endfor %}
                         </div>
                         <div class="col-3 px-0">
-                            <a data-action="showForm" data-target="edit_user_access" data-id="{{ access.id }}"
-                                class="text-decoration-none btn btn-sm btn-outline-primary">
-                                <i class="bi bi-pencil-square" aria-hidden="true"></i>
-                                <span class="visually-hidden">Edit current user access</span>
+                            <a data-action="showForm" data-target="edit_pwd_account" data-id="{{ access.id }}" class="text-decoration-none btn btn-sm btn-outline-success">
+                                <i class="bi bi-key"></i>
+                                <span class="visually-hidden">Cambiar contraseña</span>
                             </a>
-                            <a href="{{ url_for('delete_access', access_id=access.id) }}"
-                                class="text-decoration-none btn btn-sm btn-outline-danger">
+                            <a data-action="showForm" data-target="edit_user_access" data-id="{{ access.id }}" class="text-decoration-none btn btn-sm btn-outline-primary">
+                                <i class="bi bi-pencil-square" aria-hidden="true"></i>
+                                <span class="visually-hidden">Editar cuenta</span>
+                            </a>
+                            <a href="{{ url_for('delete_access', access_id=access.id) }}" class="text-decoration-none btn btn-sm btn-outline-danger">
                                 <i class="bi bi-trash" aria-hidden="true"></i>
-                                <span class="visually-hidden">Delete current user access</span>
+                                <span class="visually-hidden">Borrar cuenta</span>
                             </a>
                         </div>
                     </div>
@@ -71,7 +80,9 @@
                     {% endfor %}
 
                     <a href="#" class="btn btn-primary mt-4" data-action="showForm" data-target="userAccessForm">
-                        Create New Access</a>
+                        <i class="bi bi-plus"></i>
+                        Agregar nuevo usuario
+                    </a>
                 </div>
             </div>
         </div>
@@ -90,36 +101,60 @@
 
 {% block javascript %}
 <script>
+    var edit_pwd_account = `
+            <form id="edit_pwd_account" class="mt-4 mt-md-0"
+                action="{{ url_for('edit_pwd_account', account_id=account.id) }}" method="POST">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title fw-bold">Editar la contraseña de la cuenta</h5>
+                        {{ account_form.csrf_token }}
+                        
+                        {{ render_field_with_value(account_form.name, current_user.name) }}
+                        {{ render_field(access_form.password) }}
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-upload"></i>
+                            Actualizar
+                        </button>
+                        <a href="#" class="btn btn-outline-secondary" data-action="hideForm">Cancelar</a>
+                    </div>
+                </div>
+            </form>`;
+
     var accountForm = `            
             <form id="accountForm" class="mt-4 mt-md-0"
                 action="{{ url_for('edit_account', account_id=account.id) }}" method="POST">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title fw-bold">Edit Account</h5>
+                        <h5 class="card-title fw-bold">Editar cuenta</h5>
                         {{ account_form.csrf_token }}
 
                         {{ render_field_with_value(account_form.name, current_user.name) }}
                         {{ render_field_with_value(account_form.business_name, current_user.business_id.business_name) }}
-                        <button type="submit" class="btn btn-primary">Update</button>
-                        <a href="#" class="btn btn-outline-secondary" data-action="hideForm">Cancel</a>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-upload"></i>
+                            Actualizar
+                        </button>
+                        <a href="#" class="btn btn-outline-secondary" data-action="hideForm">Cancelar</a>
                     </div>
                 </div>
             </form>`;
 
     var userAccessForm = `            
-            <form id="userAccessForm" class="mt-4 mt-md-0" action="{{ url_for('create_new_access') }}"
-                method="POST">
+            <form id="userAccessForm" class="mt-4 mt-md-0" action="{{ url_for('create_new_access') }}" method="POST">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title fw-bold">Create New User Access</h5>
+                        <h5 class="card-title fw-bold">Agregar nuevo usuario</h5>
                         {{ access_form.csrf_token }}
 
                         {{ render_field(access_form.name) }}
                         {{ render_field(access_form.email) }}
                         {{ render_field(access_form.password) }}
                         {{ render_field(access_form.roles) }}
-                        <button type="submit" class="btn btn-primary">Create new</button>
-                        <a href="#" class="btn btn-outline-secondary" data-action="hideForm">Cancel</a>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-upload"></i>
+                            Crear
+                        </button>
+                        <a href="#" class="btn btn-outline-secondary" data-action="hideForm">Cancelar</a>
                     </div>
                 </div>
             </form>`;
@@ -128,12 +163,15 @@
             <form id="edit_user_access" class="mt-4" action="" method="POST">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title fw-bold">Edit User Access</h5>
+                        <h5 class="card-title fw-bold">Modificar el rol del usuario</h5>
                         {{ access_form.csrf_token }}
                         {{ render_field(access_form.name) }}
                         {{ render_field(access_form.roles) }}
-                        <button type="submit" class="btn btn-primary">Update</button>
-                        <a href="#" class="btn btn-outline-secondary" data-action="hideForm">Cancel</a>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-upload"></i>
+                            Actualizar
+                        </button>
+                        <a href="#" class="btn btn-outline-secondary" data-action="hideForm">Cancelar</a>
                     </div>
                 </div>
             </form>`;

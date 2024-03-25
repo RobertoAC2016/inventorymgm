@@ -56,13 +56,16 @@
 
                     <div class="my-auto">
                         <a href="#" class="btn btn-md btn-primary me-2" data-action="showForm" data-target="updateStockForm">
+                            <i class="bi bi-upload"></i>
                             Actualizar existencias
                         </a>
                         {% if 'admin' in current_user.roles %}
                         <a href="#" class="btn btn-md btn-outline-primary text-decoration-none me-2" data-action="showForm" data-target="editProductForm">
+                            <i class="bi bi-pencil-square" aria-hidden="true"></i>
                             Editar
                         </a>
                         <a href="{{ url_for('delete_product', product_id=product.id) }}" class="btn btn-md btn-outline-danger">
+                            <i class="bi bi-trash" aria-hidden="true"></i>
                             Borrar
                         </a>
                         {% endif %}

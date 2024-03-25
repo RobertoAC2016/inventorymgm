@@ -57,7 +57,7 @@ class UserAccess(FlaskForm):
                              render_kw={'placeholder': 'Contraseña'})
     roles = SelectField(choices=[('', 'Elige un rol'),
                                  ('admin', 'admin'),
-                                 ('staff', 'staff')],
+                                 ('staff', 'usuario')],
                         validators=[DataRequired()])
 
 

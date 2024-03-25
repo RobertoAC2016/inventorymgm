@@ -52,7 +52,10 @@
                 <div class="card-body">
                     <div class="row align-items-center mb-3">
                         <h2 class="col-8 card-title my-0">Existencias pendientes</h2>
-                        <button class="col-4 btn text-primary search-pending">Buscar</button>
+                        <button class="col-4 btn text-primary search-pending">
+                            <i class="bi bi-search"></i>
+                            Buscar
+                        </button>
                     </div>
 
                     <div class="row search-pending-wrapper mb-3 d-none">
@@ -67,7 +70,10 @@
                             </div>
                             <div class="row">
                                 <div>
-                                    <button class="btn btn-outline-primary me-1" type="submit">Buscar</button>
+                                    <button class="btn btn-outline-primary me-1" type="submit">
+                                        <i class="bi bi-search"></i>
+                                        Buscar
+                                    </button>
                                     <a href="{{ url_for('dashboard') }}" class="btn btn-outline-secondary">Cancelar</a>
                                 </div>
                             </div>
@@ -109,9 +115,9 @@
                         {% endfor %}
                     </div>
                     {% if 'admin' in current_user.roles %}
-                    <a href="{{ url_for('create_pending_stock') }}" class="btn btn-sm btn-primary mt-4"
-                        data-action="showForm" data-target="#createPendingStock">
-                        Crear nueva solicitud de existecias pendiente
+                    <a href="{{ url_for('create_pending_stock') }}" class="btn btn-sm btn-primary mt-4" data-action="showForm" data-target="#createPendingStock">
+                        <i class="bi bi-plus"></i>
+                        Crear nueva solicitud para esperar existecias
                     </a>
                     {% endif %}
                 </div>
@@ -134,9 +140,17 @@
 
                     <div class="search-product mb-4">
                         <form id="product-query" class="d-flex" method="POST">
-                            <input class="form-control me-2 search" type="text" id="query" placeholder="Buscar producto"
-                                aria-label="Search product" autocomplete="off">
-                            <button class="btn btn-outline-primary me-1" type="submit">Buscar</button>
+                            <input class="form-control me-2 search" type="text" id="query" placeholder="Buscar producto" aria-label="Search product" autocomplete="off">
+                            <button class="btn btn-outline-primary" type="submit">
+                                <div class="d-flex flex-lg-fill">
+                                    <div class="col-2">
+                                        <i class="bi bi-search"></i>
+                                    </div>
+                                    <div class="col-10 mx-1">
+                                        Buscar
+                                    </div>
+                                </div>
+                            </button>
                             <a href="{{ url_for('dashboard') }}" class="btn btn-outline-secondary">Cancelar</a>
                         </form>
                         <ul class="suggestions list-group">
@@ -172,10 +186,9 @@
                             <div class="col-2 text-center">
                                 {{ product.stock_change }} {{ product.unit_of_measurement }}
                             </div>
-                            <div class="col-2">
-                                <a href="#" class="btn text-primary p-0" data-action="showForm" data-target="edit_product_stock"
-                                    data-id="{{ product.id }}">
-                                    Actualizar existencias
+                            <div class="col-2 text-center">
+                                <a href="#" class="btn text-primary p-0" data-action="showForm" data-target="edit_product_stock" data-id="{{ product.id }}" title="Editar">
+                                    <i class="bi bi-pencil-square"></i>
                                 </a>
                             </div>
                         </div>

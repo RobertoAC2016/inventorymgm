@@ -10,7 +10,16 @@
                 <form class="d-flex" id="product-query" method="POST">
                     <input class="form-control me-2 search" type="text" id="query" placeholder="Buscar producto"
                         aria-label="Search product" autocomplete="off">
-                    <button class="btn btn-outline-primary me-1" type="submit">Buscar</button>
+                    <button class="btn btn-outline-primary me-1" type="submit">
+                        <div class="d-flex flex-lg-fill">
+                            <div class="col-2">
+                                <i class="bi bi-search"></i>
+                            </div>
+                            <div class="col-10 mx-1">
+                                Buscar
+                            </div>
+                        </div>
+                    </button>
                     <a href="{{ url_for('get_products') }}" class="btn btn-outline-secondary">Cancelar</a>
                 </form>
                 <ul class="suggestions list-group">
@@ -19,6 +28,7 @@
             </div>
             {% if 'admin' in current_user.roles %}
             <a class="btn btn-primary mt-4" data-action="showForm" data-target="createProductForm">
+                <i class="bi bi-plus"></i>
                 Agregar producto
             </a>
             {% endif %}
@@ -56,23 +66,23 @@
 
                             <div class="accordion-body">
                                 <div class="row align-items-center mb-2 border-bottom">
-                                    <div class="col-6">
+                                    <div class="col-7">
                                         <span class="text-muted">Nombre de producto</span>
                                     </div>
-                                    <div class="col-2">
-                                        <span class="text-muted text-center">Existencias actuales</span>
+                                    <div class="col-2 text-center">
+                                        <span class="text-muted">Existencias actuales</span>
                                     </div>
-                                    <div class="col-2">
-                                        <span class="text-muted text-center">Cambio de hoy</span>
+                                    <div class="col-2 text-center">
+                                        <span class="text-muted">Cambio de hoy</span>
                                     </div>
-                                    <div class="col-2">
+                                    <div class="col-1">
                                     </div>
                                 </div>
                                 
                                 {% for product in products %}
                                 {% if product.category_id.id == category.id %}
                                 <div class="row align-items-center mb-2 border-bottom hover-gray">
-                                    <a href="{{ url_for('product_details', product_id=product.id) }}" class="text-decoration-none text-black col-6">
+                                    <a href="{{ url_for('product_details', product_id=product.id) }}" class="text-decoration-none text-black col-7">
                                         {{ product.name }}
                                     </a>
                                     <div class="col-2 text-center">
@@ -85,10 +95,9 @@
                                             0
                                         {% endif %}
                                     </div>
-                                    <div class="col-2">
-                                        <a class="btn text-primary p-0" data-action="showForm"
-                                            data-target="edit_product_stock" data-id="{{ product.id }}">
-                                            Actualizar existencias
+                                    <div class="col-1 text-center">
+                                        <a class="btn text-primary p-0" data-action="showForm" data-target="edit_product_stock" data-id="{{ product.id }}" title="Editar">
+                                            <i class="bi bi-pencil-square"></i>
                                         </a>
                                     </div>
                                 </div>

@@ -8,8 +8,7 @@
 
             <div class="card">
                 <div class="card-body">
-                    <form id="create-pending-stock" class="mb-2" action="{{ url_for('create_pending_stock') }}"
-                        method="POST">
+                    <form id="create-pending-stock" class="mb-2" action="{{ url_for('create_pending_stock') }}" method="POST">
                         <h5 class="card-title fw-bold">Crear nueva orden de existencias pendientes</h5>
                         {{ form.csrf_token }}
 
@@ -39,8 +38,7 @@
                                 {{item.expected_stock}} {{ item.unit_of_measurement }}
                             </div>
                             <div class="col-2 text-center">
-                                <a href="{{ url_for('remove_product_from_pending_stock', id=item.id) }}"
-                                    class="text-decoration-none btn btn-sm btn-outline-danger">
+                                <a href="{{ url_for('remove_product_from_pending_stock', id=item.id) }}" class="text-decoration-none btn btn-sm btn-outline-danger">
                                     <i class="bi bi-trash" aria-hidden="true"></i>
                                     <span class="visually-hidden">Borrar producto</span>
                                 </a>

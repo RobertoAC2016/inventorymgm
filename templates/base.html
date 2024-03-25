@@ -81,25 +81,20 @@
                 <!-- top toolbar for account holder  -->
                 <header class="navbar navbar-light justify-content-start">
                     <!-- toggler for sidenav  -->
-                    <button class="navbar-toggler d-inline-block d-sm-none" type="button"
-                        aria-label="Toggle navigation">
+                    <button class="navbar-toggler d-inline-block d-sm-none" type="button" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
                     <!-- end toggler for sidenav  -->
                     {% if current_user.account_holder == True %}
-                    <ul class="navbar-nav ms-3">
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="toolbarDropdown" role="button"
-                                data-bs-toggle="dropdown" aria-expanded="false">
-                                {{ current_user.business_id.business_name }}
-                            </a>
-                            <ul class="dropdown-menu" aria-labelledby="toolbarDropdown">
-                                <li><a class="dropdown-item" href="{{ url_for('account') }}">Perfil</a></li>
-                            </ul>
-                        </li>
-                    </ul>
+                    <a class="rounded-pill text-decoration-none btn btn-sm btn-outline-primary" href="{{ url_for('account') }}" role="button" aria-expanded="false">
+                        <i class="bi bi-person-circle"></i>
+                        {{ current_user.business_id.business_name }}
+                    </a>
                     {% else %}
-                    <div class="ms-2">{{ current_user.business_id.business_name }}</div>
+                    <div class="rounded-pill text-decoration-none btn btn-sm btn-outline-primary ms-2">
+                        <i class="bi bi-person-circle"></i>
+                        {{ current_user.business_id.business_name }}
+                    </div>
                     {% endif %}
                 </header>
                 <!-- end top toolbar for account holder  -->

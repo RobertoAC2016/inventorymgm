@@ -3,16 +3,16 @@
 function generateHeading() {
     return `
         <div class="row align-items-center mb-2 g-0">
-            <div class="col-6">
+            <div class="col-7">
                 <span class="text-muted ps-2">Nombre de producto</span>
             </div>
-            <div class="col-2">
-                <span class="text-muted text-center">Existencias actuales</span>
+            <div class="col-2 text-center">
+                <span class="text-muted">Existencias actuales</span>
             </div>
-            <div class="col-2">
-                <span class="text-muted text-center">Cambios de hoy</span>
+            <div class="col-2 text-center">
+                <span class="text-muted">Cambios de hoy</span>
             </div>
-            <div class="col-2"></div>
+            <div class="col-1"></div>
         </div>`;
 }
 
@@ -26,19 +26,18 @@ function displayProductList(productLists) {
 
         let productRow = `
             <div class="row align-items-center mb-2 py-2 border-bottom g-0 hover-gray">
-                <a href="/products/${product._id.$oid}" class="text-decoration-none text-black col-6 ps-2">
+                <a href="/products/${product._id.$oid}" class="text-decoration-none text-black col-7 ps-2">
                     ${product.name}
                 </a>
-                <div class="col-2">
+                <div class="col-2 text-center">
                     ${product.current_stock}
                 </div>
-                <div class="col-2">
+                <div class="col-2 text-center">
                     ${stockChange}
                 </div>
-                <div class="col-2">
-                    <a class="btn text-primary p-0" data-action="showForm" data-target="edit_product_stock"
-                        data-id="${product._id.$oid}">
-                        Actualizar existencias
+                <div class="col-1 text-center">
+                    <a class="btn text-primary p-0" data-action="showForm" data-target="edit_product_stock" data-id="${product._id.$oid}" title="Editar">
+                        <i class="bi bi-pencil-square"></i>
                     </a>
                 </div>
             </div>`;

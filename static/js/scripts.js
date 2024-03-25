@@ -41,6 +41,18 @@ function queryCollection(target, ObjectId) {
     const collection = target.split('_')[1];
 
     switch (collection) {
+        case 'pwd':
+            return $.ajax({
+                url: '/account/query',
+                type: 'POST',
+                data: {
+                    'ObjectId': ObjectId
+                }
+            })
+            .done(data => {
+                data['password'] = '';
+                setValueToFormInputs($(`form#${target}`), data);
+            });
         case 'user':
             return $.ajax({
                 url: '/account/query',
